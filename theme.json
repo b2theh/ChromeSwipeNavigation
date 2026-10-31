@@ -5,9 +5,9 @@
   "homepage": "https://github.com/b2theh/ChromeSwipeNavigation",
   "readme": "https://github.com/b2theh/ChromeSwipeNavigation/blob/main/README.md",
   "description": "Arc-inspired dark edge semicircles with bold white arrows and a smooth entrance for native back and forward gestures.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "createdAt": "2026-10-31",
-  "updatedAt": "2026-10-31T00:00:00Z",
+  "updatedAt": "2026-10-31T10:33:46Z",
   "style": {
     "chrome": "chrome.css"
   },
