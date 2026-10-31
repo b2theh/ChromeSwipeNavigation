@@ -5,9 +5,9 @@
   "homepage": "https://github.com/b2theh/ChromeSwipeNavigation",
   "readme": "https://github.com/b2theh/ChromeSwipeNavigation/blob/main/README.md",
   "description": "Arc-inspired dark edge semicircles with bold white arrows and a smooth entrance for native back and forward gestures.",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "createdAt": "2026-10-31",
-  "updatedAt": "2026-10-31T10:33:46Z",
+  "updatedAt": "2026-10-31T10:39:02Z",
   "style": {
     "chrome": "chrome.css"
   },
@@ -18,5 +18,15 @@
   ],
   "fork": [
     "zen"
-  ]
+  ],
+  "js": true,
+  "scripts": {
+    "progress.uc.js": {
+      "name": "Arc Swipe Progress",
+      "description": "Match the background opacity to native swipe progress",
+      "include": [
+        "chrome://browser/content/browser.xhtml"
+      ]
+    }
+  }
 }
