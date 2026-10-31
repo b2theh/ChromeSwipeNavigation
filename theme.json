@@ -1,14 +1,22 @@
 {
   "id": "chrome-swipe-navigation",
   "author": "b2theh",
-  "name": "Chrome Swipe Navigation",
+  "name": "Arc Swipe Navigation",
   "homepage": "https://github.com/b2theh/ChromeSwipeNavigation",
   "readme": "https://github.com/b2theh/ChromeSwipeNavigation/blob/main/README.md",
-  "description": "Chrome-inspired circular back and forward swipe indicators, with light and dark themes and native gesture progress.",
-  "version": "1.0.0",
+  "description": "Arc-inspired dark edge semicircles with bold white arrows and a smooth entrance for native back and forward gestures.",
+  "version": "1.1.0",
   "createdAt": "2026-10-31",
   "updatedAt": "2026-10-31T00:00:00Z",
-  "style": { "chrome": "chrome.css" },
-  "tags": ["Navigation", "Gestures", "Chrome"],
-  "fork": ["zen"]
+  "style": {
+    "chrome": "chrome.css"
+  },
+  "tags": [
+    "Navigation",
+    "Gestures",
+    "Arc"
+  ],
+  "fork": [
+    "zen"
+  ]
 }

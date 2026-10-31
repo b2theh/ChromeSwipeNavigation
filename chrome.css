@@ -1,18 +1,18 @@
-/* Chrome Swipe Navigation — native Zen history gestures, CSS only. */
+/* Arc Swipe Navigation — native Zen history gestures, CSS only. */
 @-moz-document url("chrome://browser/content/browser.xhtml") {
   #historySwipeAnimationContainer {
-    --chrome-swipe-size: 40px;
-    --chrome-swipe-inset: 12px;
-    --chrome-swipe-surface: light-dark(#ffffff, #303134);
-    --chrome-swipe-arrow: light-dark(#5f6368, #e8eaed);
-    --chrome-swipe-ready-surface: light-dark(#e8f0fe, #394457);
-    --chrome-swipe-ready-arrow: light-dark(#1a73e8, #aecbfa);
+    --arc-swipe-size: 152px;
+    --arc-swipe-reveal: 70px;
+    --arc-swipe-arrow-size: 48px;
+    --arc-swipe-arrow-inset: 10px;
+    --arc-swipe-surface: rgb(36 36 36 / 0.88);
+    --arc-swipe-arrow: #fff;
+    --arc-swipe-enter-duration: 240ms;
     position: absolute !important;
     inset: 0 !important;
     overflow: hidden !important;
     pointer-events: none !important;
     border-radius: inherit;
-    color-scheme: var(--toolbar-color-scheme);
   }
 
   #historySwipeAnimationPreviousArrow,
@@ -23,9 +23,9 @@
     align-items: center !important;
     justify-items: start !important;
     direction: ltr !important;
-    /* Leave inline translate and opacity under native gesture control.
-       Keep a real opacity transition: Zen uses transitionend for cleanup. */
-    transition: opacity 140ms ease-out !important;
+    /* Native translate tracks the gesture; native opacity ends it.
+       Zen needs the opacity transitionend event to remove the overlay. */
+    transition: opacity 180ms ease-out !important;
     transform: none !important;
   }
 
@@ -39,8 +39,8 @@
     transform: scaleX(-1) !important;
   }
 
-  /* Keep the native SVG in the DOM: Zen sets will-navigate on it.
-     Drawing with pseudo-elements also supports different platform SVGs. */
+  /* Keep the SVG available to Zen, including platform-specific circles.
+     Both directions use the same drawing, mirrored with their parent. */
   #historySwipeAnimationContainer .swipe-nav-icon {
     display: none !important;
   }
@@ -49,35 +49,37 @@
   #historySwipeAnimationNextArrow::before {
     content: "";
     grid-area: 1 / 1;
-    width: var(--chrome-swipe-size);
-    height: var(--chrome-swipe-size);
-    margin-left: var(--chrome-swipe-inset);
+    width: var(--arc-swipe-size);
+    height: var(--arc-swipe-size);
+    margin-left: calc(var(--arc-swipe-reveal) - var(--arc-swipe-size));
     border-radius: 50%;
-    background: var(--chrome-swipe-surface);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.22), 0 0 1px rgb(0 0 0 / 0.2);
-    scale: 0.94;
-    transition: background-color 100ms ease-out, scale 120ms ease-out;
+    background: var(--arc-swipe-surface);
+    animation: arc-swipe-reveal var(--arc-swipe-enter-duration) cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
   }
 
   #historySwipeAnimationPreviousArrow::after,
   #historySwipeAnimationNextArrow::after {
     content: "";
     grid-area: 1 / 1;
-    width: 20px;
-    height: 20px;
-    margin-left: calc(var(--chrome-swipe-inset) + (var(--chrome-swipe-size) - 20px) / 2);
-    background: var(--chrome-swipe-arrow);
+    width: var(--arc-swipe-arrow-size);
+    height: var(--arc-swipe-arrow-size);
+    margin-left: var(--arc-swipe-arrow-inset);
+    background: var(--arc-swipe-arrow);
     mask: url("arrow.svg") center / contain no-repeat;
-    transition: background-color 100ms ease-out;
+    animation: arc-swipe-reveal var(--arc-swipe-enter-duration) cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
   }
 
-  #historySwipeAnimationContainer > :has(svg.will-navigate) {
-    --chrome-swipe-surface: var(--chrome-swipe-ready-surface);
-    --chrome-swipe-arrow: var(--chrome-swipe-ready-arrow);
-  }
-
-  #historySwipeAnimationContainer > :has(svg.will-navigate)::before {
-    scale: 1;
+  /* Use animationend (ignored by Zen), not child transitionend events,
+     which can prematurely trigger the native fade-out cleanup listener. */
+  @keyframes arc-swipe-reveal {
+    from {
+      opacity: 0;
+      transform: translateX(-36px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -88,17 +90,14 @@
 
     #historySwipeAnimationContainer > box::before,
     #historySwipeAnimationContainer > box::after {
-      transition: none !important;
-      scale: 1;
+      animation: none !important;
     }
   }
 
   @media (forced-colors: active) {
     #historySwipeAnimationContainer {
-      --chrome-swipe-surface: Canvas;
-      --chrome-swipe-arrow: CanvasText;
-      --chrome-swipe-ready-surface: Highlight;
-      --chrome-swipe-ready-arrow: HighlightText;
+      --arc-swipe-surface: Canvas;
+      --arc-swipe-arrow: CanvasText;
       forced-color-adjust: none;
     }
 
